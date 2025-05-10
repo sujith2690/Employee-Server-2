@@ -26,7 +26,10 @@ export const signUpUser = async (req, res) => {
 export const loginUser = (req, res) => {
     const { email, password } = req.body;
 
+    console.log(email,'-------------user login email')
+
     const loginQuery = 'SELECT * FROM users WHERE email = ?';
+    
     db.query(loginQuery, [email], async (err, results) => {
         if (err) return res.status(500).json({ message: 'Server Error' });
 
