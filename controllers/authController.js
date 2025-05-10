@@ -29,9 +29,12 @@ export const loginUser = (req, res) => {
     console.log(email,'-------------user login email')
 
     const loginQuery = 'SELECT * FROM users WHERE email = ?';
-    
+
     db.query(loginQuery, [email], async (err, results) => {
-        if (err) return res.status(500).json({ message: 'Server Error' });
+        if (err){
+            console.log(err.message,'-----------error login')
+            return res.status(500).json({ message: 'Server Error' }); 
+        }
 
         if (results.length === 0) {
             return res.status(404).json({ message: 'User not found' });
