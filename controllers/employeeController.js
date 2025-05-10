@@ -13,7 +13,6 @@ export const getAllEmployees = async (req, res) => {
                 console.error('❌ Error fetching employees:', err.message);
                 return res.status(500).json({ error: err.message });
             }
-            console.log('✅ Employees fetched:', data);
             return res.status(200).json({ details: data });
         });
     } catch (error) {
@@ -28,7 +27,6 @@ export const addNewEmployee = async (req, res) => {
         if (!name || !email || !phoneNumber || !joiningDate || !createdBy || !salary) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
-        console.log(joiningDate, '-------------------------date')
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             return res.status(400).json({ error: 'Invalid email format' });
@@ -46,7 +44,6 @@ export const addNewEmployee = async (req, res) => {
 
 
         const values = [id, name, email, phoneNumber, address, position, joiningDate, createdBy, salary, updatedBy];
-        console.log(values, '------------------joiningDate')
 
         db.query(query, values, (err, result) => {
             if (err) {
@@ -148,7 +145,6 @@ export const updateEmployDetails = async (req, res) => {
 export const employDetails = async (req, res) => {
     try {
         const userId = req.userId; // Assuming you have a middleware that sets req.userId
-        console.log(userId, '---------userId')
 
         const { id } = req.params; // Extract employee ID from route params
         if (!id) {
@@ -181,7 +177,6 @@ export const employDetails = async (req, res) => {
 export const deleteEmployeeById = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log(id, '----------55555----employee id');
         const employee = await getEmployeeById(id)
         if (!employee) {
             return res.status(404).json({ message: 'Employee not found' });
@@ -208,9 +203,7 @@ export const deleteEmployeeById = async (req, res) => {
 
 export const findEmployees = async (req, res) => {
     try {
-        console.log('.....search.............searching the data');
         const { search, minSalary, maxSalary } = req.body;
-        console.log(search, minSalary, maxSalary, '-----------Incoming Search Data');
 
         // Base query
         let query = 'SELECT * FROM employees WHERE 1=1';
@@ -239,7 +232,6 @@ export const findEmployees = async (req, res) => {
                 resolve(results);
             });
         });
-        console.log(employees, '----search------employees')
         return res.status(200).json(employees);
     } catch (error) {
         console.error('Error getting employees:', error.message);

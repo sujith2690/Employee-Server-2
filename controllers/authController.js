@@ -1,9 +1,8 @@
 import db from '../db.js';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken'; // Optional if you want JWT auth
+import jwt from 'jsonwebtoken'; 
 
 export const signUpUser = async (req, res) => {
-    console.log('.........its here')
     const { name, email, password } = req.body;
 
     const checkQuery = 'SELECT * FROM users WHERE email = ?';
